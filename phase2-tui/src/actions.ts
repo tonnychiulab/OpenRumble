@@ -29,7 +29,7 @@ export const ACTIONS: readonly ActionSpec[] = [
     description: "deploy_phase2_zeek.sh --yes",
     destructive: true,
     phrase: null,
-    script: "deploy_phase2_zeek.sh",
+    script: "scripts/phase2/deploy_phase2_zeek.sh",
     args: ["--yes"],
   },
   {
@@ -39,7 +39,7 @@ export const ACTIONS: readonly ActionSpec[] = [
     description: "deploy_phase2_zeek.sh --dry-run",
     destructive: false,
     phrase: null,
-    script: "deploy_phase2_zeek.sh",
+    script: "scripts/phase2/deploy_phase2_zeek.sh",
     args: ["--dry-run"],
   },
   {
@@ -49,7 +49,7 @@ export const ACTIONS: readonly ActionSpec[] = [
     description: "verify_phase2_zeek.sh",
     destructive: false,
     phrase: null,
-    script: "verify_phase2_zeek.sh",
+    script: "scripts/phase2/verify_phase2_zeek.sh",
     args: [],
   },
   {
@@ -69,7 +69,7 @@ export const ACTIONS: readonly ActionSpec[] = [
     description: "rollback_phase2_zeek.sh --yes",
     destructive: true,
     phrase: null,
-    script: "rollback_phase2_zeek.sh",
+    script: "scripts/phase2/rollback_phase2_zeek.sh",
     args: ["--yes"],
   },
   {
@@ -79,7 +79,7 @@ export const ACTIONS: readonly ActionSpec[] = [
     description: "--yes --purge-packages，保留 jq",
     destructive: true,
     phrase: null,
-    script: "rollback_phase2_zeek.sh",
+    script: "scripts/phase2/rollback_phase2_zeek.sh",
     args: ["--yes", "--purge-packages"],
   },
   {
@@ -89,7 +89,7 @@ export const ACTIONS: readonly ActionSpec[] = [
     description: "--yes --purge，需輸入 DELETE",
     destructive: true,
     phrase: "DELETE",
-    script: "rollback_phase2_zeek.sh",
+    script: "scripts/phase2/rollback_phase2_zeek.sh",
     args: ["--yes", "--purge"],
   },
   {

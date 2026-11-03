@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Script Name   : deploy_phase1_runtime_guard.bash
+# Script Name   : scripts/phase1/deploy_phase1_runtime_guard.sh
 # Description   : OpenRumble 第一階段：主機執行時期防護矩陣自動化部署腳本
 #                 (Falco Modern eBPF + Audit Log + Logrotate)
 # Target Platform: Ubuntu 24.04 LTS (Noble Numbat)
@@ -20,8 +20,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=lib/obm_common.sh
-source "$SCRIPT_DIR/lib/obm_common.sh"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+# shellcheck source=../../lib/obm_common.sh
+source "${REPO_ROOT}/lib/obm_common.sh"
 
 DRY_RUN_MODE=false
 YES_MODE=false

@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Script Name   : rollback_phase2_zeek.sh
+# Script Name   : scripts/phase2/rollback_phase2_zeek.sh
 # Description   : OpenRumble 第二階段 Zeek 回滾。
 #                 --purge-packages 只移除 zeek 套件、OBS 來源與金鑰，保留 jq。
 #                 --purge 才會刪除 /opt/zeek，而且預設要再確認一次。
@@ -16,8 +16,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=lib/obm_common.sh
-source "${SCRIPT_DIR}/lib/obm_common.sh"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+# shellcheck source=../../lib/obm_common.sh
+source "${REPO_ROOT}/lib/obm_common.sh"
 
 DRY_RUN_MODE=false
 YES_MODE=false

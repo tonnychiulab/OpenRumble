@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Script Name   : verify_phase1_runtime_guard.sh
+# Script Name   : scripts/phase1/verify_phase1_runtime_guard.sh
 # Description   : OpenRumble 第一階段：執行時期防禦矩陣自動化複查與攻防驗證
 # Target Platform: Ubuntu 24.04 LTS (Kernel 6.8+ BTF)
 # Author        : 資安防禦架構實驗室
@@ -13,8 +13,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=lib/obm_common.sh
-source "$SCRIPT_DIR/lib/obm_common.sh"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+# shellcheck source=../../lib/obm_common.sh
+source "${REPO_ROOT}/lib/obm_common.sh"
 
 usage() {
     echo "使用方式: $0 [--help]"

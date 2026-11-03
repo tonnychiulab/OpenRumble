@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Script Name   : verify_phase2_zeek.sh
+# Script Name   : scripts/phase2/verify_phase2_zeek.sh
 # Description   : OpenRumble 第二階段唯讀複查。
 #                 檢查 zeekctl、介面、JSON 設定、current 日誌與輪替設定。
 #                 不改系統、不抓封包、不呼叫 zeekctl deploy。
@@ -14,8 +14,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=lib/obm_common.sh
-source "${SCRIPT_DIR}/lib/obm_common.sh"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+# shellcheck source=../../lib/obm_common.sh
+source "${REPO_ROOT}/lib/obm_common.sh"
 
 usage() {
     cat <<'EOF'

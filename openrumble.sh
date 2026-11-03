@@ -174,22 +174,22 @@ main() {
         read -r -p "請輸入選項編號 [0-10]: " choice || break
         case "$choice" in
             1)
-                run_script "第一階段部署" bash "$SCRIPT_DIR/deploy_phase1_runtime_guard.bash" --yes
+                run_script "第一階段部署" bash "$SCRIPT_DIR/scripts/phase1/deploy_phase1_runtime_guard.sh" --yes
                 ;;
             2)
-                run_script "第一階段 Dry-Run" bash "$SCRIPT_DIR/deploy_phase1_runtime_guard.bash" --dry-run
+                run_script "第一階段 Dry-Run" bash "$SCRIPT_DIR/scripts/phase1/deploy_phase1_runtime_guard.sh" --dry-run
                 ;;
             3)
-                run_script "第一階段複查" bash "$SCRIPT_DIR/verify_phase1_runtime_guard.sh"
+                run_script "第一階段複查" bash "$SCRIPT_DIR/scripts/phase1/verify_phase1_runtime_guard.sh"
                 ;;
             4)
                 if obm_confirm "確認要還原第一階段設定檔嗎？ [y/N]: "; then
-                    run_script "第一階段回滾" bash "$SCRIPT_DIR/rollback_phase1_runtime_guard.bash" --yes
+                    run_script "第一階段回滾" bash "$SCRIPT_DIR/scripts/phase1/rollback_phase1_runtime_guard.sh" --yes
                 fi
                 ;;
             5)
                 if obm_confirm "資安警示：即將完全解除安裝 Falco，確認？ [y/N]: "; then
-                    run_script "第一階段清除" bash "$SCRIPT_DIR/rollback_phase1_runtime_guard.bash" --yes --purge-packages
+                    run_script "第一階段清除" bash "$SCRIPT_DIR/scripts/phase1/rollback_phase1_runtime_guard.sh" --yes --purge-packages
                 fi
                 ;;
             6)

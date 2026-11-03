@@ -2,7 +2,7 @@
 
 OpenRumble 的 Zeek 操作畫面。互動方式對照 [oh-my-pi](https://github.com/can1357/oh-my-pi) 的 `@oh-my-pi/pi-tui`：狀態欄、鍵盤選單、確認畫面、執行中的輸出。上游渲染器要 Bun，而且 `ProcessTerminal` 直接使用 `bun:ffi`，所以這個目錄用 TypeScript 與 Node 實作同一套操作，不把 oh-my-pi 整個放進倉庫。
 
-部署、回滾、複查都呼叫倉庫根目錄的腳本，不在這裡重寫 apt 或 zeekctl。
+部署、回滾、複查都呼叫 `scripts/phase2/` 裡的腳本，不在這裡重寫 apt 或 zeekctl。
 
 ## 建置與啟動
 

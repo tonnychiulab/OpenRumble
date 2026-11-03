@@ -42,9 +42,9 @@ export async function runSelfCheck(repoRoot: string): Promise<void> {
     if (action.script) assert(existsScript(repoRoot, action.script), `找不到 ${action.script}`);
   }
 
-  const deployText = readFileSync(scriptPath(repoRoot, "deploy_phase2_zeek.sh"), "utf8");
-  const rollbackText = readFileSync(scriptPath(repoRoot, "rollback_phase2_zeek.sh"), "utf8");
-  const verifyText = readFileSync(scriptPath(repoRoot, "verify_phase2_zeek.sh"), "utf8");
+  const deployText = readFileSync(scriptPath(repoRoot, "scripts/phase2/deploy_phase2_zeek.sh"), "utf8");
+  const rollbackText = readFileSync(scriptPath(repoRoot, "scripts/phase2/rollback_phase2_zeek.sh"), "utf8");
+  const verifyText = readFileSync(scriptPath(repoRoot, "scripts/phase2/verify_phase2_zeek.sh"), "utf8");
   assert(!deployText.includes("/etc/profile"), "部署腳本不應提到登入殼層設定檔");
   assert(!deployText.includes("copytruncate"), "部署腳本不應對 current 日誌做截斷複製");
   assert(deployText.includes("--dearmor --yes"), "gpg 必須帶 --dearmor --yes");
@@ -85,7 +85,7 @@ export async function runSelfCheck(repoRoot: string): Promise<void> {
   const call = calls[0];
   if (!call) throw new Error("沒有記錄到腳本呼叫");
   assert(call.file === "bash", "必須用 bash 執行腳本");
-  assert(call.args[0] === scriptPath(repoRoot, "rollback_phase2_zeek.sh"), "必須呼叫回滾腳本");
+  assert(call.args[0] === scriptPath(repoRoot, "scripts/phase2/rollback_phase2_zeek.sh"), "必須呼叫回滾腳本");
   assert(call.args.slice(1).join(" ") === "--yes --purge", "刪除目錄的參數不對");
   assert(call.cwd === repoRoot, "工作目錄應是倉庫根目錄");
   assert(purge.view() === "result", "腳本結束後應顯示結果");

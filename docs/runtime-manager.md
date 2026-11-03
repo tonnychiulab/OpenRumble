@@ -11,12 +11,12 @@ sudo bash openrumble.sh
 ## 第一階段（Falco Modern eBPF、auditd、logrotate）
 
 ```bash
-sudo bash deploy_phase1_runtime_guard.bash --dry-run
-sudo bash deploy_phase1_runtime_guard.bash --yes
-sudo bash verify_phase1_runtime_guard.sh
-sudo bash rollback_phase1_runtime_guard.bash --dry-run
-sudo bash rollback_phase1_runtime_guard.bash --yes
-sudo bash rollback_phase1_runtime_guard.bash --yes --purge-packages
+sudo bash scripts/phase1/deploy_phase1_runtime_guard.sh --dry-run
+sudo bash scripts/phase1/deploy_phase1_runtime_guard.sh --yes
+sudo bash scripts/phase1/verify_phase1_runtime_guard.sh
+sudo bash scripts/phase1/rollback_phase1_runtime_guard.sh --dry-run
+sudo bash scripts/phase1/rollback_phase1_runtime_guard.sh --yes
+sudo bash scripts/phase1/rollback_phase1_runtime_guard.sh --yes --purge-packages
 ```
 
 `--purge-packages` 只移除 falco 與它的軟體源，保留 auditd。
@@ -28,13 +28,13 @@ Falco 規則寫入 `/etc/falco/rules.d/obm-sudoers.yaml`。若這版 Falco 沒�
 ## 第二階段（Zeek JSON 日誌）
 
 ```bash
-sudo bash deploy_phase2_zeek.sh --dry-run
-sudo bash deploy_phase2_zeek.sh --yes
-sudo bash verify_phase2_zeek.sh
-sudo bash rollback_phase2_zeek.sh --dry-run
-sudo bash rollback_phase2_zeek.sh --yes
-sudo bash rollback_phase2_zeek.sh --dry-run --purge-packages --purge
-sudo bash rollback_phase2_zeek.sh --purge-packages --purge
+sudo bash scripts/phase2/deploy_phase2_zeek.sh --dry-run
+sudo bash scripts/phase2/deploy_phase2_zeek.sh --yes
+sudo bash scripts/phase2/verify_phase2_zeek.sh
+sudo bash scripts/phase2/rollback_phase2_zeek.sh --dry-run
+sudo bash scripts/phase2/rollback_phase2_zeek.sh --yes
+sudo bash scripts/phase2/rollback_phase2_zeek.sh --dry-run --purge-packages --purge
+sudo bash scripts/phase2/rollback_phase2_zeek.sh --purge-packages --purge
 ```
 
 部署使用 `/opt/zeek/bin` 的絕對路徑，不修改 `/etc/profile`。APT 來源一次寫成帶 `signed-by` 的項目，並在安裝前印出金鑰指紋。`zeekctl deploy` 失敗，或結束時不是 `running`，腳本會中止。
@@ -43,7 +43,7 @@ sudo bash rollback_phase2_zeek.sh --purge-packages --purge
 
 `--purge-packages` 只卸載 zeek、移除 OBS 來源與金鑰，不卸載 jq。要連 `/opt/zeek` 一起刪掉才加 `--purge`。未加 `--yes` 時，刪除前要再輸入 `DELETE`。加上 `--yes` 會略過這次確認。
 
-`verify_phase2_zeek.sh` 只讀檢查，不改系統、不抓封包。介面還沒有流量時，目前日誌的 JSON 檢查可能失敗。
+`scripts/phase2/verify_phase2_zeek.sh` 只讀檢查，不改系統、不抓封包。介面還沒有流量時，目前日誌的 JSON 檢查可能失敗。
 
 ### 第二階段互動式 TUI
 
@@ -64,13 +64,13 @@ sudo bash phase2-tui/obm-zeek-tui.sh --select deploy
 
 | 選單 | 確認後執行 |
 | --- | --- |
-| 正式部署 | `deploy_phase2_zeek.sh --yes` |
-| Dry-run | `deploy_phase2_zeek.sh --dry-run` |
-| 唯讀複查 | `verify_phase2_zeek.sh` |
+| 正式部署 | `scripts/phase2/deploy_phase2_zeek.sh --yes` |
+| Dry-run | `scripts/phase2/deploy_phase2_zeek.sh --dry-run` |
+| 唯讀複查 | `scripts/phase2/verify_phase2_zeek.sh` |
 | 看日誌 | 只 `tail` `/opt/zeek/logs/current/*.log` |
-| 還原設定 | `rollback_phase2_zeek.sh --yes` |
-| 卸載 zeek 套件 | `rollback_phase2_zeek.sh --yes --purge-packages`（不卸載 jq，不刪 `/opt/zeek`） |
-| 刪除 `/opt/zeek` | 先輸入 `DELETE`，再執行 `rollback_phase2_zeek.sh --yes --purge` |
+| 還原設定 | `scripts/phase2/rollback_phase2_zeek.sh --yes` |
+| 卸載 zeek 套件 | `scripts/phase2/rollback_phase2_zeek.sh --yes --purge-packages`（不卸載 jq，不刪 `/opt/zeek`） |
+| 刪除 `/opt/zeek` | 先輸入 `DELETE`，再執行 `scripts/phase2/rollback_phase2_zeek.sh --yes --purge` |
 
 TUI 不重寫 apt 或 zeekctl。離開碼 0 是腳本完成，2 是操作者在腳本裡中止，其他是失敗。
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Script Name   : deploy_phase2_zeek.sh
+# Script Name   : scripts/phase2/deploy_phase2_zeek.sh
 # Description   : OpenRumble 第二階段：Zeek 網路流量分析自動化部署
 #                 JSON 日誌、zeekctl cron 輪替、歸檔日誌的 logrotate。
 #                 不修改登入殼層 PATH，Zeek 一律使用 /opt/zeek/bin 絕對路徑。
@@ -19,8 +19,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=lib/obm_common.sh
-source "${SCRIPT_DIR}/lib/obm_common.sh"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+# shellcheck source=../../lib/obm_common.sh
+source "${REPO_ROOT}/lib/obm_common.sh"
 
 DRY_RUN_MODE=false
 YES_MODE=false
