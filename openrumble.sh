@@ -93,9 +93,9 @@ render_tui_menu() {
     echo -e "  ${C_BLUE}--- 第二階段網路流量擴充（完整 TUI） ---${C_RESET}"
     echo -e "  ${C_CYAN}[6]${C_RESET} 進入 Zeek TUI，停在正式部署"
     echo -e "  ${C_CYAN}[7]${C_RESET} 進入 Zeek TUI，停在 Dry-Run 預檢"
-    echo -e "  ${C_CYAN}[10]${C_RESET} 進入 Zeek TUI，停在唯讀複查"
     echo -e "  ${C_RED}[8]${C_RESET} 進入 Zeek TUI，停在回滾設定"
     echo -e "  ${C_RED}[9]${C_RESET} 進入 Zeek TUI，停在卸載套件（刪除 /opt/zeek 要另外輸入 DELETE）"
+    echo -e "  ${C_CYAN}[10]${C_RESET} 進入 Zeek TUI，停在唯讀複查"
     echo -e "  ${C_MAGENTA}[0]${C_RESET} 離開控制台 (Exit)"
     echo -e "----------------------------------------------------------------------"
 }
