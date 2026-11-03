@@ -29,6 +29,22 @@ log_success() { echo -e "${GREEN}[$(date +'%Y-%m-%d %H:%M:%S')] [PASS] $1${NC}";
 log_warn()    { echo -e "${YELLOW}[$(date +'%Y-%m-%d %H:%M:%S')] [WARN] $1${NC}"; }
 log_error()   { echo -e "${RED}[$(date +'%Y-%m-%d %H:%M:%S')] [FAIL] 錯誤: $1${NC}" >&2; }
 
+# 失敗行同時寫到終端與日誌檔。obm_init_logging 把 stdout/stderr 接到 tee，
+# shell 結束時 tee 會被訊號打斷，最後一行常常來不及出現在畫面上。
+obm_show_failure() {
+    local msg="$1"
+    local line
+    line="[$(date +'%Y-%m-%d %H:%M:%S')] [FAIL] 錯誤: ${msg}"
+    if [[ -w /dev/tty ]]; then
+        printf '%s\n' "$line" > /dev/tty || true
+    else
+        printf '%s\n' "$line" >&2 || true
+    fi
+    if [[ -n "${LOG_FILE:-}" ]]; then
+        printf '%s\n' "$line" >> "${LOG_FILE}" || true
+    fi
+}
+
 # ERR trap 展開時，$1 是失敗行、$2 是失敗指令。離開碼 0 會改記為 1，避免假成功。
 obm_on_error() {
     local exit_code=$?
@@ -38,9 +54,9 @@ obm_on_error() {
     if [[ "$exit_code" -eq 0 ]]; then
         exit_code=1
     fi
-    log_error "腳本於第 ${line_no} 行異常中止 (Exit Code: ${exit_code})，失敗指令: ${failed_cmd}"
+    obm_show_failure "腳本於第 ${line_no} 行異常中止 (Exit Code: ${exit_code})，失敗指令: ${failed_cmd}"
     if [[ -n "${LOG_FILE:-}" ]]; then
-        log_error "請檢視日誌: ${PWD}/${LOG_FILE}"
+        obm_show_failure "請檢視日誌: ${PWD}/${LOG_FILE}"
     fi
     exit "$exit_code"
 }

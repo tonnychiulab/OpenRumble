@@ -15,6 +15,8 @@
 #   v1.5.0 (2026-11-03) - 改用 lib/obm_common.sh；Falco 規則改放 rules.d 或
 #                         附加標記區塊，不再覆寫既有 falco_rules.local.yaml；
 #                         支援 --yes。
+#   v1.5.1 (2026-11-03) - augenrules 非 0 時說明「No change」之後的 auditctl
+#                         失敗，並保留 auditd reload/restart 的錯誤輸出。
 # ==============================================================================
 
 set -euo pipefail
@@ -155,8 +157,25 @@ configure_auditd() {
 EOF
     chmod 0640 "$audit_rule_file"
 
+    # Ubuntu 24.04 的 augenrules 在規則檔相同時會印出 "No change"，接著仍執行
+    # auditctl -R，並以 auditctl 的離開碼結束。這裡不能讓 set -e 把那段說明吃掉。
+    local augen_rc=0
+    set +e
     augenrules --load
-    service auditd reload >/dev/null 2>&1 || service auditd restart >/dev/null 2>&1 || systemctl restart auditd
+    augen_rc=$?
+    set -e
+    if [[ "$augen_rc" -ne 0 ]]; then
+        obm_show_failure "augenrules --load 離開碼 ${augen_rc}。「No change」只表示 /etc/audit/audit.rules 與 rules.d 相同；Ubuntu 24.04 的 augenrules 印出這句後仍執行 auditctl -R，部署停在這裡，尚未 reload auditd，也尚未設定 Falco 規則與 logrotate。請執行: zgrep CONFIG_AUDIT /proc/config.gz ; auditctl -s ; systemctl status auditd --no-pager"
+        exit "$augen_rc"
+    fi
+
+    if ! service auditd reload; then
+        log_warn "auditd reload 失敗，改試 restart。"
+        if ! service auditd restart && ! systemctl restart auditd; then
+            obm_show_failure "auditd 無法 reload 或 restart。請執行: systemctl status auditd --no-pager"
+            exit 1
+        fi
+    fi
 
     local loaded_rules
     loaded_rules="$(auditctl -l 2>/dev/null || true)"
