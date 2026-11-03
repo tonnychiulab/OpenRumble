@@ -5,7 +5,7 @@ Ubuntu 24.04 LTS。需要 root。先完成第一階段，再進行第二階段�
 主控台只負責選單與離開碼。部署、回滾、複查都在獨立腳本裡，失敗會中止，不會印出成功。
 
 ```bash
-sudo bash obm_runtime_manager.sh
+sudo bash openrumble.sh
 ```
 
 ## 第一階段（Falco Modern eBPF、auditd、logrotate）

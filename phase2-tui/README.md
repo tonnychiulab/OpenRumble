@@ -19,7 +19,7 @@ sudo bash phase2-tui/obm-zeek-tui.sh
 sudo bash phase2-tui/obm-zeek-tui.sh --select rollback
 ```
 
-`obm_runtime_manager.sh` 的第二階段選項也是呼叫這個啟動器。需要 Node.js 18 以上。`dist/main.js` 建好後，目標主機不必再執行 npm。
+`openrumble.sh` 的第二階段選項也是呼叫這個啟動器。倉庫：https://github.com/tonnychiulab/OpenRumble。需要 Node.js 18 以上。`dist/main.js` 建好後，目標主機不必再執行 npm。
 
 檢查（不進全螢幕）：
 

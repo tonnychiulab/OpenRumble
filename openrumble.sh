@@ -1,7 +1,8 @@
 #!/bin/bash
 # ==============================================================================
-# Script Name   : obm_runtime_manager.sh
+# Script Name   : openrumble.sh
 # Description   : OpenRumble TUI。只顯示狀態並呼叫同目錄的獨立腳本。
+# Repository    : https://github.com/tonnychiulab/OpenRumble
 # Target Platform: Ubuntu 24.04 LTS (Kernel 6.8+ BTF)
 # Author        : 資安防禦架構實驗室
 # Version       : v2.1.0
@@ -24,6 +25,7 @@ C_DIM="${ESC}[2m"
 
 usage() {
     echo "使用方式: $0 [--help]"
+    echo "  倉庫: https://github.com/tonnychiulab/OpenRumble"
     echo "  開啟 OpenRumble 主控台。實際部署、回滾與複查交給同目錄腳本，並顯示其離開碼。"
 }
 
