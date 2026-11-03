@@ -1,0 +1,18 @@
+{
+  "name": "obm-phase2-tui",
+  "private": true,
+  "type": "module",
+  "description": "OpenRumble Phase 2 Zeek console. Interaction model adapted from oh-my-pi @oh-my-pi/pi-tui.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+    "check": "tsc && node dist/main.js --self-check",
+    "start": "node dist/main.js"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "typescript": "^5.9.3"
+  }
+}
