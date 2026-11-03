@@ -97,6 +97,8 @@ rumble risk list            # 檢視風險登記簿
 
 ## 授權
 
+本專案採用 [MIT License](LICENSE)。
+
 待定。
 
 ## 致謝與參考
